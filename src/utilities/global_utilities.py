@@ -1,4 +1,5 @@
 import random
+import pandas
 
 equip_regions = ['head', 'face', 'chest', 'legs', 
                  'hands', 'feet', 'finger', 'neck', 
@@ -46,3 +47,24 @@ def roll( roll, modifier=0 ):
 
 def get_modifier( stat ):
     return int( (stat-10)/2 )
+
+def get_random_row( pandas_df ):
+    """
+    Extracts a random row from a pandas dataframe and exports it.
+    Returns None if there are no rows.
+    """
+    if len(pandas_df)==0:
+        return None
+    
+    try:
+        # If a dataframe was passed in
+        if type(pandas_df)==pandas.core.frame.DataFrame:
+            chosen_index = random.choice( pandas_df.index )
+            return pandas_df.loc[chosen_index]
+        # If a list was passed in
+        elif type(pandas_df)==list:
+            return random.choice(pandas_df)
+    except Exception as e:
+        print(str(e))
+        print(chosen_index)
+        print(pandas_df)
